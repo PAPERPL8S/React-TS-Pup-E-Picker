@@ -1,1 +1,144 @@
-{"dogs":[{"name":"Daren","image":"/assets/chihuahua.avif","description":"stone wherever only throughout though","isFavorite":true,"id":0},{"name":"Antone","image":"/assets/corgi.png","description":"yet before circa ick oh qua madly headphones","isFavorite":true,"id":1},{"name":"Danielle","image":"/assets/blue-heeler.png","description":"vice before burst bah before","isFavorite":false,"id":2},{"name":"Adolfo","image":"/assets/chihuahua.avif","description":"until as continually while predominate astride whack","isFavorite":false,"id":3},{"name":"Adelle","image":"/assets/cowardly.png","description":"thorough which rotten pushy whereas","isFavorite":false,"id":4},{"name":"Verlie","image":"/assets/corgi.png","description":"nervous founder suppress jealously yum or punch modulo","isFavorite":true,"id":5},{"name":"Parker","image":"/assets/dalmation.png","description":"supposing yet drat hm beneath","isFavorite":false,"id":6},{"name":"Jerrell","image":"/assets/cowardly.png","description":"dowse boom episode wallaby general safely parley yuck","isFavorite":false,"id":7},{"name":"Simeon","image":"/assets/cowardly.png","description":"smoothly woot entrap incidentally stare fooey versus diligently","isFavorite":true,"id":8},{"name":"Destiney","image":"/assets/corgi.png","description":"charlatan very elegantly earring fooey amidst failing dreamily","isFavorite":true,"id":9},{"name":"Aileen","image":"/assets/cowardly.png","description":"boohoo sprout provided after apud than slim","isFavorite":true,"id":10},{"name":"Cierra","image":"/assets/corgi.png","description":"unacceptable freely adored plus ouch","isFavorite":true,"id":11},{"name":"Jamie","image":"/assets/corgi.png","description":"into briskly quick-witted anoint hence","isFavorite":false,"id":12},{"name":"Gabriel","image":"/assets/corgi.png","description":"sweetly splendid whereas phew round fooey um","isFavorite":false,"id":13},{"name":"Kenneth","image":"/assets/blue-heeler.png","description":"about shin but presentation closet","isFavorite":false,"id":14},{"name":"Thurman","image":"/assets/blue-heeler.png","description":"stake bounce eulogize though tortoise searchingly cinder starve","isFavorite":true,"id":15},{"name":"Margarete","image":"/assets/cowardly.png","description":"quieten unfortunately pike oh heavy","isFavorite":true,"id":16},{"name":"Garth","image":"/assets/cowardly.png","description":"save lovingly clue accidentally hmph","isFavorite":true,"id":17},{"name":"Isadore","image":"/assets/dalmation.png","description":"incidentally early ouch gah obnoxiously woolens barrack memorable","isFavorite":true,"id":18},{"name":"Kamren","image":"/assets/chihuahua.avif","description":"tightly hungrily physically sneak surplus hourly once","isFavorite":false,"id":19}]}
+{
+  "dogs": [
+    {
+      "name": "Unique",
+      "image": "/assets/corgi.png",
+      "description": "after meh ew trampoline step before woot",
+      "isFavorite": false,
+      "id": 1
+    },
+    {
+      "name": "Jaqueline",
+      "image": "/assets/cowardly.png",
+      "description": "till since harm provided neatly smoothly these whereas",
+      "isFavorite": false,
+      "id": 2
+    },
+    {
+      "name": "Therese",
+      "image": "/assets/cowardly.png",
+      "description": "partially regal betoken whoever save rehospitalization alert",
+      "isFavorite": false,
+      "id": 3
+    },
+    {
+      "name": "Ernest",
+      "image": "/assets/boxer.png",
+      "description": "testimony rapidly cruelly including after flimsy the hydrocarbon",
+      "isFavorite": false,
+      "id": 4
+    },
+    {
+      "name": "Erica",
+      "image": "/assets/dalmation.png",
+      "description": "genie breakfast yurt reach because silent ack",
+      "isFavorite": false,
+      "id": 5
+    },
+    {
+      "name": "Darrion",
+      "image": "/assets/blue-heeler.png",
+      "description": "superficial quietly expansionism thankfully feel crisp from even",
+      "isFavorite": false,
+      "id": 6
+    },
+    {
+      "name": "Chaim",
+      "image": "/assets/boxer.png",
+      "description": "scarcely goof inhere queasily irritating unlike eye",
+      "isFavorite": false,
+      "id": 7
+    },
+    {
+      "name": "Blaise",
+      "image": "/assets/blue-heeler.png",
+      "description": "deputy warmly against plump bliss",
+      "isFavorite": true,
+      "id": 8
+    },
+    {
+      "name": "Melisa",
+      "image": "/assets/dalmation.png",
+      "description": "zing pish partially youthfully knavishly",
+      "isFavorite": true,
+      "id": 9
+    },
+    {
+      "name": "Tommie",
+      "image": "/assets/boxer.png",
+      "description": "for around once gee consequently yowza judgementally",
+      "isFavorite": true,
+      "id": 10
+    },
+    {
+      "name": "Rosario",
+      "image": "/assets/cowardly.png",
+      "description": "usefully whoever cigarette which flawless hostess um",
+      "isFavorite": true,
+      "id": 11
+    },
+    {
+      "name": "Estel",
+      "image": "/assets/corgi.png",
+      "description": "zowie anxious dart deliberately pish subordinate unlucky",
+      "isFavorite": true,
+      "id": 12
+    },
+    {
+      "name": "Kylee",
+      "image": "/assets/chihuahua.avif",
+      "description": "interfere on around but immediately cannulate enjoin rebrand",
+      "isFavorite": true,
+      "id": 13
+    },
+    {
+      "name": "Norwood",
+      "image": "/assets/blue-heeler.png",
+      "description": "gah snuck immediately goad whelp satin joyfully",
+      "isFavorite": true,
+      "id": 14
+    },
+    {
+      "name": "Moshe",
+      "image": "/assets/corgi.png",
+      "description": "with huzzah antique brawl per",
+      "isFavorite": true,
+      "id": 15
+    },
+    {
+      "name": "Vernon",
+      "image": "/assets/boxer.png",
+      "description": "chunter electronics schtup hm besides woot phooey",
+      "isFavorite": true,
+      "id": 16
+    },
+    {
+      "name": "Anne",
+      "image": "/assets/chihuahua.avif",
+      "description": "including to unaccountably when excluding astride hopeful",
+      "isFavorite": false,
+      "id": 17
+    },
+    {
+      "name": "Tyree",
+      "image": "/assets/cowardly.png",
+      "description": "trim research protein quick-witted passbook easy furthermore",
+      "isFavorite": false,
+      "id": 18
+    },
+    {
+      "name": "Mike",
+      "image": "/assets/blue-heeler.png",
+      "description": "hanker incredible live suddenly doctor",
+      "isFavorite": false,
+      "id": 19
+    },
+    {
+      "name": "Prima Bella",
+      "description": "American Pitbull Terrier\nBelgian Malinois mix",
+      "picture": "/assets/blue-heeler.png",
+      "id": 20,
+      "isFavorite": false
+    }
+  ]
+}

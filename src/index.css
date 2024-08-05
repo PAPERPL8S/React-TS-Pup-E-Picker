@@ -31,3 +31,10 @@ header h1 {
   letter-spacing: 10px;
   text-align: center;
 }
+
+.dog-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}

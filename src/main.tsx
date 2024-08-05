@@ -6,7 +6,7 @@ import { FunctionalApp } from "./Functional/FunctionalApp.tsx";
 import { Home } from "./Home.tsx";
 import "./App.css";
 import "./index.css";
-import { ClassApp } from "./Class/ClassApp.tsx";
+import ClassApp from "./Class/ClassApp.tsx";
 import { Toaster } from "react-hot-toast";
 import { Playground } from "./Playground.tsx";
 
@@ -33,5 +33,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Toaster />
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

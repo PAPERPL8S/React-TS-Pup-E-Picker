@@ -1,55 +1,31 @@
-import React from "react";
 import { DogCard } from "../Shared/DogCard";
-import { YourDogType } from "../types";
-import { toast } from "react-hot-toast";
-
+import { TDog } from "../types";
 interface FunctionalDogsProps {
-  dogs: YourDogType[];
-  onDogUpdate: (updatedDog: YourDogType) => void;
+  dogs: TDog[];
+  onDogUpdate: (updatedDog: TDog) => void;
   onDogDelete: (id: number) => void;
   isLoading: boolean;
 }
 
-const FunctionalDogs: React.FC<FunctionalDogsProps> = ({
+const FunctionalDogs = ({
   dogs,
   onDogUpdate,
   onDogDelete,
   isLoading,
-}) => {
-  const handleTrashIconClick = async (id: number) => {
-    try {
-      await onDogDelete(id);
-      toast.success("Dog deleted");
-    } catch (error) {
-      toast.error("Failed to delete dog");
-    }
-  };
-
-  const handleHeartClick = async (dog: YourDogType) => {
-    try {
-      const updatedDog = { ...dog, isFavorite: !dog.isFavorite };
-      await onDogUpdate(updatedDog);
-      toast.success(
-        `Dog ${
-          updatedDog.isFavorite
-            ? "moved to favorites"
-            : "moved to non-favorites"
-        }`,
-      );
-    } catch (error) {
-      toast.error("Failed to update dog");
-    }
-  };
-
+}: FunctionalDogsProps) => {
   return (
     <div className="dog-list">
       {dogs.map((dog) => (
         <DogCard
           key={dog.id}
           dog={dog}
-          onTrashIconClick={() => handleTrashIconClick(dog.id)}
-          onHeartClick={() => handleHeartClick(dog)}
-          onEmptyHeartClick={() => handleHeartClick(dog)}
+          onTrashIconClick={() => onDogDelete(dog.id)}
+          onHeartClick={() =>
+            onDogUpdate({ ...dog, isFavorite: !dog.isFavorite })
+          }
+          onEmptyHeartClick={() =>
+            onDogUpdate({ ...dog, isFavorite: !dog.isFavorite })
+          }
           isLoading={isLoading}
         />
       ))}

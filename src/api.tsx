@@ -2,9 +2,9 @@ export const baseUrl = "http://localhost:3000/dogs";
 
 export const Requests = {
   getAllDogs: async () => {
-    const response = await fetch(`${baseUrl}`);
+    const response = await fetch(baseUrl);
     if (!response.ok) {
-      throw new Error("Failed to fetch dogs");
+      throw new Error(`Failed to fetch dogs with ${response.status}.`);
     }
     return response.json();
   },
@@ -12,29 +12,34 @@ export const Requests = {
   postDog: async (dog: {
     name: string;
     description: string;
-    picture: string;
+    image: string;
+    isFavorite: boolean;
   }) => {
-    const response = await fetch(`${baseUrl}`, {
+    const response = await fetch(baseUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dog),
     });
-    if (!response.ok) {
-      throw new Error("Failed to create dog");
+
+    const data = await response.json();
+
+    if (!response.ok || !data.id) {
+      throw new Error(`Failed to create dog with ${response.status}.`);
     }
-    return response.json();
+
+    return data;
   },
 
   deleteDog: async (id: number) => {
     const response = await fetch(`${baseUrl}/${id}`, {
       method: "DELETE",
     });
+
     if (!response.ok) {
-      throw new Error("Failed to delete dog");
+      throw new Error(`Failed to delete dog with ${response.status}.`);
     }
-    return response.json();
   },
 
   updateDog: async (id: number, dog: { isFavorite?: boolean }) => {
@@ -45,10 +50,14 @@ export const Requests = {
       },
       body: JSON.stringify(dog),
     });
-    if (!response.ok) {
-      throw new Error("Failed to update dog");
+
+    const data = await response.json();
+
+    if (!response.ok || !data.id) {
+      throw new Error(`Failed to update dog with ${response.status}.`);
     }
-    return response.json();
+
+    return data;
   },
 
   dummyFunction: () => {

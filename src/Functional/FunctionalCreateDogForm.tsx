@@ -1,52 +1,44 @@
 import React, { useState } from "react";
 import { dogPictures } from "../dog-pictures";
-import { YourDogType } from "../types";
+import { TDogToAddOrUpdate } from "../types";
 import { toast } from "react-hot-toast";
 
 const defaultSelectedImage = dogPictures.BlueHeeler;
 
 interface FunctionalCreateDogFormProps {
-  onDogCreate: (newDog: YourDogType) => Promise<void>;
+  onDogCreate: (newDog: TDogToAddOrUpdate) => Promise<void>;
+  isLoading: boolean;
 }
 
 const FunctionalCreateDogForm: React.FC<FunctionalCreateDogFormProps> = ({
   onDogCreate,
+  isLoading,
 }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [picture, setPicture] = useState(defaultSelectedImage);
-  const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState(defaultSelectedImage);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !description || !picture) {
+    if (!name || !description || !image) {
       toast.error("Please fill out all fields.");
       return;
     }
 
-    setIsLoading(true);
     try {
-      const newDog: YourDogType = {
-        id: 0,
+      const newDog: TDogToAddOrUpdate = {
         name,
         description,
-        picture,
+        image,
         isFavorite: false,
-        breed: "",
-        age: 0,
-        image: "",
       };
       await onDogCreate(newDog);
       setName("");
       setDescription("");
-      setPicture(defaultSelectedImage);
-      toast.success("Dog created successfully");
+      setImage(defaultSelectedImage);
     } catch (error) {
       toast.error("Failed to create dog");
-      console.error("Failed to create dog:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -70,14 +62,14 @@ const FunctionalCreateDogForm: React.FC<FunctionalCreateDogFormProps> = ({
         onChange={(e) => setDescription(e.target.value)}
         disabled={isLoading}
       />
-      <label htmlFor="picture">Select an Image</label>
+      <label htmlFor="image">Select an Image</label>
       <select
-        id="picture"
-        value={picture}
-        onChange={(e) => setPicture(e.target.value)}
+        id="image"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
         disabled={isLoading}>
-        {Object.entries(dogPictures).map(([label, pictureValue]) => (
-          <option value={pictureValue} key={pictureValue}>
+        {Object.entries(dogPictures).map(([label, imageValue]) => (
+          <option value={imageValue} key={imageValue}>
             {label}
           </option>
         ))}

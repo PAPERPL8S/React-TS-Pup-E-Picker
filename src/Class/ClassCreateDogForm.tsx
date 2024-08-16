@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import { dogPictures } from "../dog-pictures";
-import { Requests } from "../api";
-import toast from "react-hot-toast";
-import { YourDogType } from "../types";
+import { TDogToAddOrUpdate } from "../types";
+import { toast } from "react-hot-toast";
 
 const defaultSelectedImage = dogPictures.BlueHeeler;
 
 interface ClassCreateDogFormProps {
-  onDogCreate: (newDog: YourDogType) => void;
+  onDogCreate: (newDog: TDogToAddOrUpdate) => Promise<void>;
+  isLoading: boolean;
 }
 
 interface ClassCreateDogFormState {
   name: string;
   description: string;
-  picture: string;
-  isLoading: boolean;
+  image: string;
 }
 
 class ClassCreateDogForm extends Component<
@@ -26,8 +25,7 @@ class ClassCreateDogForm extends Component<
     this.state = {
       name: "",
       description: "",
-      picture: defaultSelectedImage,
-      isLoading: false,
+      image: defaultSelectedImage,
     };
   }
 
@@ -37,7 +35,7 @@ class ClassCreateDogForm extends Component<
     >,
   ) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value } as unknown as Pick<
+    this.setState({ [name]: value } as Pick<
       ClassCreateDogFormState,
       keyof ClassCreateDogFormState
     >);
@@ -45,33 +43,36 @@ class ClassCreateDogForm extends Component<
 
   handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, description, picture } = this.state;
 
-    if (!name || !description || !picture) {
+    const { name, description, image } = this.state;
+
+    if (!name || !description || !image) {
       toast.error("Please fill out all fields.");
       return;
     }
 
-    this.setState({ isLoading: true });
     try {
-      const newDog = await Requests.postDog({ name, description, picture });
-      this.props.onDogCreate(newDog);
+      const newDog: TDogToAddOrUpdate = {
+        name,
+        description,
+        image,
+        isFavorite: false,
+      };
+      await this.props.onDogCreate(newDog);
       this.setState({
         name: "",
         description: "",
-        picture: defaultSelectedImage,
+        image: defaultSelectedImage,
       });
-      toast.success("Dog created");
     } catch (error) {
-      console.error("Failed to create dog:", error);
       toast.error("Failed to create dog");
-    } finally {
-      this.setState({ isLoading: false });
     }
   };
 
   render() {
-    const { name, description, picture, isLoading } = this.state;
+    const { name, description, image } = this.state;
+    const { isLoading } = this.props;
+
     return (
       <form id="create-dog-form" onSubmit={this.handleSubmit}>
         <h4>Create a New Dog</h4>
@@ -94,15 +95,15 @@ class ClassCreateDogForm extends Component<
           onChange={this.handleChange}
           disabled={isLoading}
         />
-        <label htmlFor="picture">Select an Image</label>
+        <label htmlFor="image">Select an Image</label>
         <select
-          id="picture"
-          name="picture"
-          value={picture}
+          id="image"
+          name="image"
+          value={image}
           onChange={this.handleChange}
           disabled={isLoading}>
-          {Object.entries(dogPictures).map(([label, pictureValue]) => (
-            <option value={pictureValue} key={pictureValue}>
+          {Object.entries(dogPictures).map(([label, imageValue]) => (
+            <option value={imageValue} key={imageValue}>
               {label}
             </option>
           ))}

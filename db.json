@@ -4,14 +4,14 @@
       "name": "Unique",
       "image": "/assets/corgi.png",
       "description": "after meh ew trampoline step before woot",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 1
     },
     {
       "name": "Jaqueline",
       "image": "/assets/cowardly.png",
       "description": "till since harm provided neatly smoothly these whereas",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 2
     },
     {
@@ -32,70 +32,70 @@
       "name": "Erica",
       "image": "/assets/dalmation.png",
       "description": "genie breakfast yurt reach because silent ack",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 5
     },
     {
       "name": "Darrion",
       "image": "/assets/blue-heeler.png",
       "description": "superficial quietly expansionism thankfully feel crisp from even",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 6
     },
     {
       "name": "Chaim",
       "image": "/assets/boxer.png",
       "description": "scarcely goof inhere queasily irritating unlike eye",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 7
     },
     {
       "name": "Blaise",
       "image": "/assets/blue-heeler.png",
       "description": "deputy warmly against plump bliss",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 8
     },
     {
       "name": "Melisa",
       "image": "/assets/dalmation.png",
       "description": "zing pish partially youthfully knavishly",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 9
     },
     {
       "name": "Tommie",
       "image": "/assets/boxer.png",
       "description": "for around once gee consequently yowza judgementally",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 10
     },
     {
       "name": "Rosario",
       "image": "/assets/cowardly.png",
       "description": "usefully whoever cigarette which flawless hostess um",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 11
     },
     {
       "name": "Estel",
       "image": "/assets/corgi.png",
       "description": "zowie anxious dart deliberately pish subordinate unlucky",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 12
     },
     {
       "name": "Kylee",
       "image": "/assets/chihuahua.avif",
       "description": "interfere on around but immediately cannulate enjoin rebrand",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 13
     },
     {
       "name": "Norwood",
       "image": "/assets/blue-heeler.png",
       "description": "gah snuck immediately goad whelp satin joyfully",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 14
     },
     {
@@ -109,14 +109,14 @@
       "name": "Vernon",
       "image": "/assets/boxer.png",
       "description": "chunter electronics schtup hm besides woot phooey",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 16
     },
     {
       "name": "Anne",
       "image": "/assets/chihuahua.avif",
       "description": "including to unaccountably when excluding astride hopeful",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 17
     },
     {
@@ -130,15 +130,33 @@
       "name": "Mike",
       "image": "/assets/blue-heeler.png",
       "description": "hanker incredible live suddenly doctor",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 19
     },
     {
       "name": "Prima Bella",
       "description": "American Pitbull Terrier\nBelgian Malinois mix",
-      "picture": "/assets/blue-heeler.png",
+      "image": "/assets/blue-heeler.png",
       "id": 20,
-      "isFavorite": false
+      "isFavorite": true
+    },
+    {
+      "id": 21,
+      "name": "Tiger",
+      "description": "mastiff mix",
+      "image": "/assets/boxer.jpeg",
+      "isFavorite": true,
+      "breed": "",
+      "age": 0
+    },
+    {
+      "id": 22,
+      "name": "Kiki",
+      "description": "American Stafford Shire Terrier",
+      "image": "/assets/boxer.jpeg",
+      "isFavorite": true,
+      "breed": "",
+      "age": 0
     }
   ]
 }

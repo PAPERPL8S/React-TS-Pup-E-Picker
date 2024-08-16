@@ -1,18 +1,21 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { FunctionalSectionProps } from "../types";
+import { TActiveTab } from "./FunctionalApp";
 
-const FunctionalSection: React.FC<FunctionalSectionProps> = ({
+interface FunctionalSectionProps {
+  activeTab: TActiveTab;
+  setActiveTab: (tab: TActiveTab) => void;
+  favoriteCount: number;
+  unfavoriteCount: number;
+  children?: React.ReactNode;
+}
+
+const FunctionalSection = ({
   children,
   activeTab,
   setActiveTab,
   favoriteCount,
   unfavoriteCount,
-}) => {
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-  };
-
+}: FunctionalSectionProps) => {
   return (
     <section id="main-section">
       <div className="container-header">
@@ -23,17 +26,17 @@ const FunctionalSection: React.FC<FunctionalSectionProps> = ({
         <div className="selectors">
           <div
             className={`selector ${activeTab === "favorite" ? "active" : ""}`}
-            onClick={() => handleTabClick("favorite")}>
+            onClick={() => setActiveTab("favorite")}>
             favorite ({favoriteCount})
           </div>
           <div
             className={`selector ${activeTab === "unfavorite" ? "active" : ""}`}
-            onClick={() => handleTabClick("unfavorite")}>
+            onClick={() => setActiveTab("unfavorite")}>
             unfavorite ({unfavoriteCount})
           </div>
           <div
             className={`selector ${activeTab === "create" ? "active" : ""}`}
-            onClick={() => handleTabClick("create")}>
+            onClick={() => setActiveTab("create")}>
             create dog
           </div>
         </div>

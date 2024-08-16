@@ -1,19 +1,19 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import FunctionalCreateDogForm from "./FunctionalCreateDogForm";
 import FunctionalDogs from "./FunctionalDogs";
 import FunctionalSection from "./FunctionalSection";
 import { Requests } from "../api";
-import { YourDogType } from "../types";
+import { TDog, TDogToAddOrUpdate } from "../types";
 import { Toaster, toast } from "react-hot-toast";
 
-export function FunctionalApp() {
-  const [activeTab, setActiveTab] = useState<string>("all");
-  const [dogs, setDogs] = useState<YourDogType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [favoriteCount, setFavoriteCount] = useState(0);
-  const [unfavoriteCount, setUnfavoriteCount] = useState(0);
+export type TActiveTab = "all" | "favorite" | "unfavorite" | "create";
 
-  const fetchDogs = useCallback(async () => {
+export function FunctionalApp() {
+  const [activeTab, setActiveTab] = useState<TActiveTab>("all");
+  const [dogs, setDogs] = useState<TDog[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchDogs = async () => {
     setIsLoading(true);
     try {
       const fetchedDogs = await Requests.getAllDogs();
@@ -24,35 +24,23 @@ export function FunctionalApp() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchDogs();
-  }, [fetchDogs]);
+  }, []);
 
-  useEffect(() => {
-    const favorites = dogs.filter((dog) => dog.isFavorite).length;
-    const unfavorites = dogs.filter((dog) => !dog.isFavorite).length;
-    setFavoriteCount(favorites);
-    setUnfavoriteCount(unfavorites);
-  }, [dogs]);
+  const favoritesDogs = dogs.filter((dog) => dog.isFavorite);
+  const unfavoritesDogs = dogs.filter((dog) => !dog.isFavorite);
 
-  const handleDogUpdate = async (updatedDog: YourDogType) => {
+  const handleDogUpdate = async (updatedDog: TDog) => {
     setIsLoading(true);
     try {
-      const updatedDogResponse = await Requests.updateDog(
-        updatedDog.id,
-        updatedDog,
-      );
-      setDogs((prevDogs) =>
-        prevDogs.map((dog) =>
-          dog.id === updatedDogResponse.id ? updatedDogResponse : dog,
-        ),
-      );
+      await Requests.updateDog(updatedDog.id, updatedDog);
+      await fetchDogs();
       toast.success("Dog updated");
     } catch (error) {
       toast.error("Failed to update dog");
-      console.error("Failed to update dog:", error);
     } finally {
       setIsLoading(false);
     }
@@ -62,62 +50,37 @@ export function FunctionalApp() {
     setIsLoading(true);
     try {
       await Requests.deleteDog(id);
-      setDogs((prevDogs) => prevDogs.filter((dog) => dog.id !== id));
-      toast.success("Dog deleted");
+      await fetchDogs();
+      toast.success("Dog deleted successfully");
     } catch (error) {
       toast.error("Failed to delete dog");
-      console.error("Failed to delete dog:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleDogCreate = async (newDog: YourDogType) => {
+  const handleDogCreate = async (newDog: TDogToAddOrUpdate) => {
     setIsLoading(true);
     try {
-      const createdDog = await Requests.postDog(newDog);
-      setDogs((prevDogs) => [...prevDogs, createdDog]);
-      toast.success("Dog created");
+      await Requests.postDog(newDog);
+      await fetchDogs();
+      toast.success("Dog created successfully");
     } catch (error) {
       toast.error("Failed to create dog");
-      console.error("Failed to create dog:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case "favorite":
-        return (
-          <FunctionalDogs
-            dogs={dogs.filter((dog) => dog.isFavorite)}
-            onDogUpdate={handleDogUpdate}
-            onDogDelete={handleDogDelete}
-            isLoading={isLoading}
-          />
-        );
-      case "unfavorite":
-        return (
-          <FunctionalDogs
-            dogs={dogs.filter((dog) => !dog.isFavorite)}
-            onDogUpdate={handleDogUpdate}
-            onDogDelete={handleDogDelete}
-            isLoading={isLoading}
-          />
-        );
-      case "create":
-        return <FunctionalCreateDogForm onDogCreate={handleDogCreate} />;
-      default:
-        return (
-          <FunctionalDogs
-            dogs={dogs}
-            onDogUpdate={handleDogUpdate}
-            onDogDelete={handleDogDelete}
-            isLoading={isLoading}
-          />
-        );
-    }
+  const dogList: Record<TActiveTab, TDog[]> = {
+    all: dogs,
+    favorite: favoritesDogs,
+    unfavorite: unfavoritesDogs,
+    create: [],
+  };
+
+  const handleTabClick: (tab: TActiveTab) => void = (tab) => {
+    setActiveTab((prevTab) => (prevTab === tab ? "all" : tab));
   };
 
   return (
@@ -128,14 +91,23 @@ export function FunctionalApp() {
       <Toaster />
       <FunctionalSection
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        favoriteCount={favoriteCount}
-        unfavoriteCount={unfavoriteCount}
-        dogs={dogs}
-        onDogUpdate={handleDogUpdate}
-        onDogDelete={handleDogDelete}
-        isLoading={isLoading}>
-        {renderContent()}
+        setActiveTab={handleTabClick}
+        favoriteCount={favoritesDogs.length}
+        unfavoriteCount={unfavoritesDogs.length}>
+        {activeTab !== "create" && (
+          <FunctionalDogs
+            dogs={dogList[activeTab]}
+            onDogUpdate={handleDogUpdate}
+            onDogDelete={handleDogDelete}
+            isLoading={isLoading}
+          />
+        )}
+        {activeTab === "create" && (
+          <FunctionalCreateDogForm
+            onDogCreate={handleDogCreate}
+            isLoading={isLoading}
+          />
+        )}
       </FunctionalSection>
     </div>
   );

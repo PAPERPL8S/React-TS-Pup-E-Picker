@@ -1,53 +1,54 @@
-import React from "react";
+import { Component, ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { TActiveTab } from "./ClassApp";
 
 interface ClassSectionProps {
-  children: React.ReactNode;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
+  activeTab: TActiveTab;
+  setActiveTab: (tab: TActiveTab) => void;
   favoriteCount: number;
   unfavoriteCount: number;
+  children?: ReactNode;
 }
 
-const ClassSection: React.FC<ClassSectionProps> = ({
-  children,
-  activeTab,
-  setActiveTab,
-  favoriteCount,
-  unfavoriteCount,
-}) => {
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
+class ClassSection extends Component<ClassSectionProps> {
+  handleTabClick = (tab: TActiveTab) => {
+    this.props.setActiveTab(tab);
   };
 
-  return (
-    <section id="main-section">
-      <div className="container-header">
-        <div className="container-label">Dogs: </div>
-        <Link to={"/functional"} className="btn">
-          Change to Functional
-        </Link>
-        <div className="selectors">
-          <div
-            className={`selector ${activeTab === "favorite" ? "active" : ""}`}
-            onClick={() => handleTabClick("favorite")}>
-            favorite ({favoriteCount})
-          </div>
-          <div
-            className={`selector ${activeTab === "unfavorite" ? "active" : ""}`}
-            onClick={() => handleTabClick("unfavorite")}>
-            unfavorite ({unfavoriteCount})
-          </div>
-          <div
-            className={`selector ${activeTab === "create" ? "active" : ""}`}
-            onClick={() => handleTabClick("create")}>
-            create dog
+  render() {
+    const { activeTab, favoriteCount, unfavoriteCount, children } = this.props;
+
+    return (
+      <section id="main-section">
+        <div className="container-header">
+          <div className="container-label">Dogs: </div>
+          <Link to={"/functional"} className="btn">
+            Change to Functional
+          </Link>
+          <div className="selectors">
+            <div
+              className={`selector ${activeTab === "favorite" ? "active" : ""}`}
+              onClick={() => this.handleTabClick("favorite")}>
+              favorite ({favoriteCount})
+            </div>
+            <div
+              className={`selector ${
+                activeTab === "unfavorite" ? "active" : ""
+              }`}
+              onClick={() => this.handleTabClick("unfavorite")}>
+              unfavorite ({unfavoriteCount})
+            </div>
+            <div
+              className={`selector ${activeTab === "create" ? "active" : ""}`}
+              onClick={() => this.handleTabClick("create")}>
+              create dog
+            </div>
           </div>
         </div>
-      </div>
-      <div className="content-container">{children}</div>
-    </section>
-  );
-};
+        <div className="content-container">{children}</div>
+      </section>
+    );
+  }
+}
 
 export default ClassSection;

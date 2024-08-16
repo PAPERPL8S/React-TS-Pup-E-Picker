@@ -3,14 +3,15 @@ import ClassCreateDogForm from "./ClassCreateDogForm";
 import ClassDogs from "./ClassDogs";
 import ClassSection from "./ClassSection";
 import { Requests } from "../api";
-import { YourDogType } from "../types";
+import { TDog, TDogToAddOrUpdate } from "../types";
+import { Toaster, toast } from "react-hot-toast";
+
+export type TActiveTab = "all" | "favorite" | "unfavorite" | "create";
 
 interface ClassAppState {
-  activeTab: string;
-  dogs: YourDogType[];
+  activeTab: TActiveTab;
+  dogs: TDog[];
   isLoading: boolean;
-  favoriteCount: number;
-  unfavoriteCount: number;
 }
 
 class ClassApp extends Component<object, ClassAppState> {
@@ -20,8 +21,6 @@ class ClassApp extends Component<object, ClassAppState> {
       activeTab: "all",
       dogs: [],
       isLoading: false,
-      favoriteCount: 0,
-      unfavoriteCount: 0,
     };
   }
 
@@ -34,97 +33,102 @@ class ClassApp extends Component<object, ClassAppState> {
     try {
       const fetchedDogs = await Requests.getAllDogs();
       this.setState({ dogs: fetchedDogs });
-      this.updateCounts(fetchedDogs);
     } catch (error) {
+      toast.error("Failed to fetch dogs");
       console.error("Failed to fetch dogs:", error);
     } finally {
       this.setState({ isLoading: false });
     }
   };
 
-  updateCounts = (dogs: YourDogType[]) => {
-    const favoriteCount = dogs.filter((dog) => dog.isFavorite).length;
-    const unfavoriteCount = dogs.filter((dog) => !dog.isFavorite).length;
-    this.setState({ favoriteCount, unfavoriteCount });
+  handleDogUpdate = async (updatedDog: TDog) => {
+    this.setState({ isLoading: true });
+    try {
+      await Requests.updateDog(updatedDog.id, updatedDog);
+      await this.fetchDogs();
+      toast.success("Dog updated");
+    } catch (error) {
+      toast.error("Failed to update dog");
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
-  handleDogUpdate = (updatedDog: YourDogType) => {
-    this.setState((prevState) => {
-      const dogs = prevState.dogs.map((dog) =>
-        dog.id === updatedDog.id ? updatedDog : dog,
-      );
-      this.updateCounts(dogs);
-      return { dogs };
-    });
+  handleDogDelete = async (id: number) => {
+    this.setState({ isLoading: true });
+    try {
+      await Requests.deleteDog(id);
+      await this.fetchDogs();
+      toast.success("Dog deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete dog");
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
-  handleDogDelete = (id: number) => {
-    this.setState((prevState) => {
-      const dogs = prevState.dogs.filter((dog) => dog.id !== id);
-      this.updateCounts(dogs);
-      return { dogs };
-    });
+  handleDogCreate = async (newDog: TDogToAddOrUpdate) => {
+    this.setState({ isLoading: true });
+    try {
+      await Requests.postDog(newDog);
+      await this.fetchDogs();
+      toast.success("Dog created successfully");
+    } catch (error) {
+      toast.error("Failed to create dog");
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
-  handleDogCreate = (newDog: YourDogType) => {
-    this.setState((prevState) => {
-      const dogs = [...prevState.dogs, newDog];
-      this.updateCounts(dogs);
-      return { dogs };
-    });
-  };
-
-  setActiveTab = (tab: string) => {
-    this.setState({ activeTab: tab });
+  handleTabClick = (tab: TActiveTab) => {
+    this.setState((prevState) => ({
+      activeTab: prevState.activeTab === tab ? "all" : tab,
+    }));
   };
 
   renderContent = () => {
     const { activeTab, dogs, isLoading } = this.state;
-    switch (activeTab) {
-      case "favorite":
-        return (
-          <ClassDogs
-            dogs={dogs.filter((dog) => dog.isFavorite)}
-            onDogUpdate={this.handleDogUpdate}
-            onDogDelete={this.handleDogDelete}
-            isLoading={isLoading}
-          />
-        );
-      case "unfavorite":
-        return (
-          <ClassDogs
-            dogs={dogs.filter((dog) => !dog.isFavorite)}
-            onDogUpdate={this.handleDogUpdate}
-            onDogDelete={this.handleDogDelete}
-            isLoading={isLoading}
-          />
-        );
-      case "create":
-        return <ClassCreateDogForm onDogCreate={this.handleDogCreate} />;
-      default:
-        return (
-          <ClassDogs
-            dogs={dogs}
-            onDogUpdate={this.handleDogUpdate}
-            onDogDelete={this.handleDogDelete}
-            isLoading={isLoading}
-          />
-        );
-    }
+    const favoritesDogs = dogs.filter((dog) => dog.isFavorite);
+    const unfavoritesDogs = dogs.filter((dog) => !dog.isFavorite);
+
+    const dogList: Record<TActiveTab, TDog[]> = {
+      all: dogs,
+      favorite: favoritesDogs,
+      unfavorite: unfavoritesDogs,
+      create: [],
+    };
+
+    return activeTab !== "create" ? (
+      <ClassDogs
+        dogs={dogList[activeTab]}
+        onDogUpdate={this.handleDogUpdate}
+        onDogDelete={this.handleDogDelete}
+        isLoading={isLoading}
+      />
+    ) : (
+      <ClassCreateDogForm
+        onDogCreate={this.handleDogCreate}
+        isLoading={isLoading}
+      />
+    );
   };
 
   render() {
-    const { activeTab, favoriteCount, unfavoriteCount } = this.state;
+    const { activeTab, dogs } = this.state;
+    const favoritesDogs = dogs.filter((dog) => dog.isFavorite);
+    const unfavoritesDogs = dogs.filter((dog) => !dog.isFavorite);
+
     return (
       <div className="App" style={{ backgroundColor: "skyblue" }}>
         <header>
           <h1>pup-e-picker (Class)</h1>
         </header>
+        <Toaster />
         <ClassSection
           activeTab={activeTab}
-          setActiveTab={this.setActiveTab}
-          favoriteCount={favoriteCount}
-          unfavoriteCount={unfavoriteCount}>
+          setActiveTab={this.handleTabClick}
+          favoriteCount={favoritesDogs.length}
+          unfavoriteCount={unfavoritesDogs.length}>
           {this.renderContent()}
         </ClassSection>
       </div>
